@@ -7,7 +7,7 @@
   <meta name="author" content="Anna Novak">
   <title>Resacas Map</title>
 
-<!-- CSS style sheets and Javascript libraries for Leaflet  -->
+<!-- include CSS style sheets and Javascript libraries for Leaflet  -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
   integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
   crossorigin=""/>
@@ -15,6 +15,51 @@
 <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
   integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
   crossorigin=""></script>
+
+
+
+  <!-- custom CSS style for my map (not mine, just included for testing) -->
+  <style>
+  body { padding: 0; margin: 0;}
+  html, body, #map { height: 100%;}
+  .legend {
+  	padding: 6px 8px;
+      font: 12px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255,255,255,0.6);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 5px;
+  	text-align: left;
+  	line-height: 18px;
+  	color: #777;
+  }
+  .legend i {
+  	width: 18px;
+  	height: 18px;
+  	float: left;
+  	margin-right: 8px;
+  	opacity: 0.7;
+  }
+  .legend .point {
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-left: 4px;
+    margin-right: 12px;
+    border: 1px solid;
+    border-color: #fff;
+    opacity: 0.8;
+  }
+  .legend .line {
+    height: 4px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    border-radius: 2px;
+  }
+  </style>
+
 
 </head>
 
@@ -28,6 +73,7 @@
 <!-- eventually, a script containing geoJson vector data -->
 
 
+
 <script>
 
 var mymap = L.map('map').setView([25.902, 97.498], 13);
@@ -39,8 +85,8 @@ var mapboxSatStreets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/sate
    id: 'mapbox.streets',
 });
 
+/* Add the base layer to the map */
 mapboxSatStreets.addTo(mymap);
-
 
 </script>
 
