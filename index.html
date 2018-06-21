@@ -88,8 +88,9 @@ var mapboxSatStreets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/sate
 mapboxSatStreets.addTo(mymap);
 
 /* load external GeoJSON file and add to map */
-$.getJSON("TR_Resacas_020618.geojson", function(data){
-  L.geoJson(data).addTo(map);
+$.getJSON("TR_Resacas_020618.geojson", function(data)  {
+  var TRaerial = L.geoJson(data);
+  TRaerial.addTo(mymap);
 });
   
 </script>
