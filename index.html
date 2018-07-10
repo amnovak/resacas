@@ -318,7 +318,7 @@ const connectionStyle = new carto.style.CartoCSS(`
 
 /** Create and add CARTO layers */
 var allResacas = new carto.layer.Layer(all_resacas, resacaStyle, {
-  featureOverColumns: ['short_code', 'acres', 'avwtrd_ft', 'avsedd_ft', 'system']
+  featureOverColumns: ['short_code', 'acres_round', 'waterdpth_round', 'seddpth_round', 'system']
 });
 
 var connections = new carto.layer.Layer(connectionStructures, connectionStyle, {
@@ -364,14 +364,14 @@ function openPopup(featureEvent) {
   if (featureEvent.data.short_code) {
     content += `${featureEvent.data.short_code}</h3></li>`;
   }
-  if (featureEvent.data.acres) {
-    content += `<li>Acres: ${featureEvent.data.acres}</li>`;
+  if (featureEvent.data.acres_round) {
+    content += `<li>Acres: ${featureEvent.data.acres_round}</li>`;
   }
-  if (featureEvent.data.avwtrd_ft) {
-    content += `<li>Average Water Depth: ${featureEvent.data.avwtrd_ft} ft</li>`;
+  if (featureEvent.data.waterdpth_round) {
+    content += `<li>Average Water Depth: ${featureEvent.data.waterdpth_round} ft</li>`;
   }
-  if (featureEvent.data.avsedd_ft){
-    content += `<li>Average Sediment Depth: ${featureEvent.data.avsedd_ft} ft</li>`;
+  if (featureEvent.data.seddpth_round){
+    content += `<li>Average Sediment Depth: ${featureEvent.data.seddpth_round} ft</li>`;
   }
   content += `</ul></div>`;
 
