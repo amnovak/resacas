@@ -7,7 +7,7 @@
   <meta name="author" content="Anna Novak">
   <title>Cameron County Resacas Explorer</title>
 
-<!-- Include Leaflet.js -->
+<!-- Include Leaflet.js library and style sheet-->
 <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
   integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
   crossorigin=""></script>
@@ -15,26 +15,19 @@
   integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
   crossorigin=""/>
 
-<!-- Include Carto.js-->
+<!-- Include Carto.js library-->
 <script src="https://libs.cartocdn.com/carto.js/v4.0.8/carto.min.js"></script>
 
-  <!-- Scripts for ESRI-Leaflet Geocoder library and style sheet-->
+  <!-- Scripts for ESRI-Leaflet.js Geocoder library and style sheet-->
 <script src="https://unpkg.com/esri-leaflet@2.1.4"></script>
 <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.12/dist/esri-leaflet-geocoder.css">
 <script src="https://unpkg.com/esri-leaflet-geocoder"></script>
 
 
-  <!-- CSS for testing -->
+  <!-- CSS style for the page-->
   <style>
   body { padding: 0; margin: 0;}
   html, body, #map { height: 100%;}
-
-    .layer-selector {
-     position: absolute;
-     right: 20px;
-     top: 70px;
-     z-index: 200005;
-   }
 
    .basemap-selector {
      position: absolute;
@@ -43,6 +36,55 @@
      z-index: 200005;
    }
 
+   .tab {
+     position: fixed;
+     top: 20px;
+     right: 22px;
+     width: 270px;
+     overflow: hidden;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+     background-color: #f1f1f1;
+     z-index: 300000;
+   }
+
+   .tab button {
+     background-color: inherit;
+     float: left;
+     border: none;
+     outline: none;
+     padding: 10px 12px;
+     transition: 0.3s;
+     font-size: 12px;
+     z-index: 300005;
+   }
+
+   .tab button:hover {
+     background-color: #ddd;
+    z-index: 300005;
+   }
+
+   .tab button.active {
+     background-color: #ccc;
+     z-index: 300005;
+   }
+
+   .tabcontent {
+      display: none;
+      position: fixed;
+      width: 250px;
+      height: 250px;
+      right: 20px;
+      top: 60px;
+      padding: 10px;
+      background-color: rgba(8, 20, 36, .8);
+      border: 2px solid rgba(8, 20, 36, 0);
+      border-radius: 5px;
+      color: #FFF;
+      font-family: "HelveticaNeue-Thin", Helvetica, sans-serif;
+      font-size: 12px;
+      z-index: 200004;
+}
 
    /* div#title {
    position: fixed;
@@ -54,35 +96,23 @@
    z-index: 200000;
  } */
 
-
-   div#sidebar {
-   position: fixed;
-   width: 250px;
-   height: 250px;
-   right: 20px;
-   top: 20px;
-   padding: 10px;
-   background-color: rgba(8, 20, 36, .8);
-   border: 2px solid rgba(8, 20, 36, 0);
-   border-radius: 5px;
-   color: #FFF;
-   font-family: "HelveticaNeue-Thin", Helvetica, sans-serif;
-   font-size: 12px;
-   z-index: 200004;
-   }
-
    div#info {
      position: fixed;
      width: 250px;
      height: auto;
      right: 60px;
-     top: 120px;
+     top: 200px;
      color: #FFF;
      line-height: 1.6;
      font-size: 10px;
      font-family: "HelveticaNeue-Thin", Helvetica, sans-serif;
-     z-index: 200008
+     z-index: 200008;
    }
+
+   div#controls {
+     font-size: 9px;
+   }
+
 
   </style>
 
@@ -114,28 +144,55 @@
 <!-- <div id="title">
   <h1>Resaca Explorer</h1>
 </div> -->
-<div id="sidebar">
-  <p>This is an interactive map of the five resaca systems in Cameron County, Texas. Click on a section of a resaca for more information, or click
-<a id="datalink" href="https://novakannaaa.carto.com/tables/all_resacas/public" target="_blank">here</a> to get the data.</p>
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'About')">Explore</button>
+  <button class="tablinks" onclick="openTab(event, 'InfoTab')">About this map</button>
+</div>
 
-<!-- <select class="layer-selector">
-  <option value="all">Show all resacas</option>
-  <option value="TR">Town Resaca</option>
-  <option value="RRV">Resaca Rancho Viejo</option>
-  <option value="RDLG">Resaca de la Guerra</option>
-  <option value="RDLF">Resaca de los Fresnos</option>
-  <option value="RDLC">Resaca de los Cuates</option>
-</select> -->
-<!-- <select class="basemap-selector">
-  <option value="mapboxSatStreets">Satellite imagery</option>
-  <option value="mapboxLight">Street map</option>
-</select> -->
-<div id="info"></div>
+<div id="About" class="tabcontent">
+
+    <p>This is an interactive map of the five resaca systems in Cameron County, Texas. Click on a section of a resaca for more information, or click
+  <a id="datalink" href="https://novakannaaa.carto.com/tables/all_resacas/public" target="_blank">here</a> to get the data.</p>
+
+  <div id="info"></div>
+
+  <div id="controls">
+    <ul style="list-style-type:none">
+      <li onclick="setConnections()">
+        <input type="checkbox" name="data" id="connections">
+        <label for="connections">Show hydraulic connection structures</label>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="InfoTab" class="tabcontent">
+    <p> Under construction. </p>
+    <p>To zoom: click and drag the mouse while holding the shift key to draw a bounding box.</p>
 </div>
 
 
+<!-- Function to open tabs -->
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
 
-<!-- All the map code here -->
+
+
+
+<!-- All the map code here. -->
 <script>
 
 var map = L.map('map').setView([26.10, -97.29], 10);
@@ -160,17 +217,17 @@ mapboxSatStreets.addTo(map);
 
 
 
-/** 1st Attempt to add data layers from Carto */
+/** add CARTO client */
 const client = new carto.Client({
   apiKey: 'default_public',
   username: 'novakannaaa'
 });
 
 
-/** Data tables */
-const all_resacas = new carto.source.Dataset(`
-   all_resacas
- `);
+/** load CARTO Data tables */
+const all_resacas = new carto.source.Dataset(`all_resacas`);
+const connectionStructures = new carto.source.Dataset(`connectionstructures`);
+const drainStructures = new carto.source.Dataset(`drainage`);
 
 
 /** CartoCSS styles */
@@ -245,15 +302,38 @@ const resacaStyle = new carto.style.CartoCSS(`
 }
 `);
 
+const connectionStyle = new carto.style.CartoCSS(`
+  #layer {
+   marker-width: 7;
+   marker-fill: #EE4D54;
+ }
+ `);
+
+ const drainStyle = new carto.style.CartoCSS(`
+   #layer {
+    marker-width: 7;
+    marker-fill: yellow;
+  }
+  `);
 
 /** Create and add CARTO layers */
 var allResacas = new carto.layer.Layer(all_resacas, resacaStyle, {
   featureOverColumns: ['short_code', 'acres', 'avwtrd_ft', 'avsedd_ft', 'system']
 });
 
-client.addLayer(allResacas);
+var connections = new carto.layer.Layer(connectionStructures, connectionStyle, {
+  featureOverColumns: ['s_no', "s_type"]
+});
+
+var drains = new carto.layer.Layer(drainStructures, drainStyle, {
+  featureOverColumns: ['s_no', "s_type"]
+});
+
+client.addLayers([allResacas, connections, drains]);
 client.getLeafletLayer().addTo(map);
 
+connections.hide();
+drains.hide();
 
 
 
@@ -306,12 +386,37 @@ function openPopup(featureEvent) {
 };
 
 
-/* mark which segment is currently selected*/
-function highlightSegment(short_code) {
-  // identify feature in the Dataset
-  // create a copy with new style, replace original
-  // control for clicked/not featureClicked
 
+function openDrain(featureEvent) {
+  let content = '';
+  content += `<div class="widget"><ul style="list-style-type:none">`;
+  if (featureEvent.data.s_no) {
+    content += `<li><h3>${featureEvent.data.s_no}</li>`;
+  }
+  if (featureEvent.data.s_type){
+    content += `<li>${featureEvent.data.s_type}</li>`;
+  }
+  content += `</ul></div>`;
+
+  document.getElementById('info').innerHTML = content;
+};
+
+
+
+
+
+
+function setConnections() {
+  if (connections.isVisible()) {
+    connections.hide()
+  } else {
+    connections.show()
+  }
+  if (drains.isVisible()) {
+    drains.hide()
+  } else {
+    drains.show()
+  }
 }
 
 
@@ -321,23 +426,20 @@ function highlightSegment(short_code) {
 // });
 
 
+/* highlight currently selected feature*/
+function highlightSegment(short_code) {
+  // identify feature in the Dataset
+  // create a copy with new style, replace original
+  // control for clicked/not featureClicked
+
+}
+
 /** Listen to event thrown when polygon is clicked */
 allResacas.on('featureClicked', openPopup);
 
+drains.on('featureClicked', openDrain);
 
 
-
-/* listen for changes on the layer selectors */
-
-// var layerSelector = document.querySelector('.layer-selector');
-//
-// layerSelector.addEventListener('change', function (e) {
-//   var activeLayers = e.target.value;
-//
-//   if (activeLayers == 'Show all resacas') {
-//     source.
-//   }
-// })
 
 
 
