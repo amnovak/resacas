@@ -168,7 +168,7 @@
 
 <div id="InfoTab" class="tabcontent">
     <p> Under construction. </p>
-    <p>To zoom: click and drag the mouse while holding the shift key to draw a bounding box.</p>
+    <p>To zoom: click and drag the mouse while holding the shift key.</p>
 </div>
 
 
@@ -398,6 +398,13 @@ function openDrain(featureEvent) {
   }
   content += `</ul></div>`;
 
+  let pContent = `<h3>${featureEvent.data.s_no}</h3>`
+  popup.setContent(pContent);
+  popup.setLatLng(featureEvent.latLng);
+  if (!popup.isOpen()) {
+    popup.openOn(map);
+  }
+
   document.getElementById('info').innerHTML = content;
 };
 
@@ -438,6 +445,7 @@ function highlightSegment(short_code) {
 allResacas.on('featureClicked', openPopup);
 
 drains.on('featureClicked', openDrain);
+connections.on('featureClicked', openDrain);
 
 
 
